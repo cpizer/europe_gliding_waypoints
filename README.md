@@ -1,6 +1,6 @@
 # europe_gliding_waypoints
 This repository contains a python-script, which downloads the latest waypoint-data 
-from the openflightmaps- and the xcSoar-Homepage.
+from the openflightmaps- and the XCsoar-Homepage.
 
 The downloaded data is parsed into a cup-file, which can be utilized in several applications like XCsoar, an OUDIE, etc.
 By using this script and the resulting file, the user does not have to switch between multiple cup-files during flight if
