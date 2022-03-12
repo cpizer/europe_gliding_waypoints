@@ -1,3 +1,5 @@
+import sys
+import datetime
 from pathlib2 import *
 import requests
 import zipfile
@@ -41,7 +43,7 @@ PATH_CUP_SWITZERLAND = "http://snapshots.openflightmaps.org/live/2006/cup/lsas/l
 PATH_OA_SWITZERLAND = "http://snapshots.openflightmaps.org/live/2006/openair/lsas/latest/openair_ls.zip"
 PATH_CUP_SLOVAKIA = "http://snapshots.openflightmaps.org/live/2006/cup/lzbb/latest/cup_lz.zip"
 PATH_OA_SLOVAKIA = "http://snapshots.openflightmaps.org/live/2006/openair/lzbb/latest/openair_lz.zip"
-PATH_CUP_FRANCE = "http://download.xcsoar.org/waypoints/France.cup"
+PATH_CUP_FRANCE = "http://download.xcsoar.org/content/waypoint/country/FR.cup"
 PATH_OA_FRANCE = ""
 
 PATH_CWD = Path.cwd()
@@ -54,12 +56,13 @@ path_list = [PATH_CUP_FRANCE, PATH_CUP_AUSTRIA, PATH_CUP_BELGIUM, PATH_CUP_BULGA
     PATH_OA_GERMANY, PATH_OA_GREECE, PATH_OA_HUNGARY, PATH_OA_ITALY, PATH_OA_NEDERLAND, PATH_OA_POLAND, 
     PATH_OA_ROMANIA, PATH_OA_SLOVAKIA, PATH_OA_SLOVENIA, PATH_OA_SWEDEN, PATH_OA_SWITZERLAND]
 
-def parse_line(line):
+def parse_line(line, styles = []):
     line = line.replace("\r", "")
     line = line.replace("\n", "")
     
     line = line.replace("Ä", "Ae").replace("ä", "ae").replace("Ö", "oe").replace("ö", "oe").replace("Ü", "Ue").replace("ü", "ue")
     
+    split_line = line.split(",")
     tmp_name = ""
     tmp_code = ""
     tmp_country = ""
@@ -71,7 +74,6 @@ def parse_line(line):
     tmp_rwylen = ""
     tmp_freq = ""
     tmp_desc = ""
-    split_line = line.split(",")
     fields = []
     if len(split_line) == 11:
         for tmp_field in split_line:
@@ -92,6 +94,12 @@ def parse_line(line):
             else:
                 fields.append(tmp_field)
     
+    tmp_style = prepare_field(fields[6])
+
+    if styles and tmp_style.isnumeric():
+        if not int(tmp_style) in styles:
+            return ""
+
     for field_ind in range(11):
         if field_ind == 0:
             tmp_name = prepare_field(fields[field_ind], True)
@@ -105,8 +113,6 @@ def parse_line(line):
             tmp_lon = prepare_field(fields[field_ind])
         elif field_ind == 5:
             tmp_elev = prepare_field(fields[field_ind])
-        elif field_ind == 6:
-            tmp_style = prepare_field(fields[field_ind])
         elif field_ind == 7:
             tmp_rwdir = prepare_field(fields[field_ind])
         elif field_ind == 8:
@@ -171,7 +177,16 @@ if __name__ == "__main__":
     PATH_RES = PATH_CWD / Path("res")
     PATH_RES_INPUT = PATH_RES / Path("input")
     PATH_RES_OUTPUT = PATH_RES / Path("output")
-    PATH_RES_OUTPUT_FILE = PATH_RES_OUTPUT / Path("europe.cup")
+    FILENAME_OUTPUT_FILE = "worldwide_{}.cup".format(datetime.date.today().isoformat().replace("-","_"))
+    PATH_RES_OUTPUT_FILE = PATH_RES_OUTPUT / Path(FILENAME_OUTPUT_FILE)
+
+    waypoint_styles = []
+    if len(sys.argv) > 1:
+        for i in range(2,len(sys.argv)):
+            if sys.argv[i].isnumeric():
+                waypoint_styles.append(int(sys.argv[i]))
+            else:
+                print("WARNING: '{}' is not a valid command line argument!!!")
     
     if not PATH_RES_INPUT.is_dir():
         PATH_RES_INPUT.mkdir(parents = True)
@@ -235,10 +250,11 @@ if __name__ == "__main__":
         for line_num, line in enumerate(output_lines):
             if not line_num == 0:
                 try:
-                    parsed_line = parse_line(line)
-                    tmp_file.write("{}\n".format(parsed_line))
+                    parsed_line = parse_line(line, waypoint_styles)
+                    if parsed_line:
+                        tmp_file.write("{}\n".format(parsed_line))
                 except:
-                    print("WARNING: Parsing the following line failed:\n{}".format(line))
+                    print("WARNING: Parsing the following line failed:\n{} (this line might be empty)".format(line))
             else:
                 tmp_file.write("{}\n".format(line))
-    print("...finished")
+    print("...finished\nSaved file under\n{}".format(PATH_RES_OUTPUT_FILE))
