@@ -285,28 +285,34 @@ if __name__ == "__main__":
     
     airspaces_definitions = []
     airspaces_names = []
-    
+    duplicates_counter = 0
+
     for input_file in input_files_list:
         print("Add airspaces from {} to list...".format(input_file))
         with codecs.open(input_file,"r","ISO-8859-1") as tmp_file:
             content = tmp_file.read()
             first_airspace_occurence = content.find("AC ")
             content = content[first_airspace_occurence:]
-            blockwise_content = content.split("\nAC")
+            blockwise_content = content.split("\r\nAC")
             for airspace_block in blockwise_content:
-                linewise_content = content.split("\n")
-                airspace_name = ""
-                for line in linewise_content:
-                    if "AN" in line:
-                        airspace_name = line[3:]
-                        break
+                if not airspace_block[0:2] == "AC":
+                    airspace_block = "AC{}".format(airspace_block)
+                airspace_name_begin = airspace_block.find("AN")
+                airspace_name_end = airspace_block[airspace_name_begin:].find("\r\n") + airspace_name_begin
+                airspace_name = airspace_block[airspace_name_begin+3:airspace_name_end]
                 if not airspace_name in airspaces_names:
                     airspaces_names.append(airspace_name)
                     airspaces_definitions.append(airspace_block)
+                elif not airspace_block in airspaces_definitions:
+                    airspaces_names.append(airspace_name)
+                    airspaces_definitions.append(airspace_block)
+                    print("WARNING: {} appeared multiple times!".format(airspace_name))
+                else:
+                    duplicates_counter = duplicates_counter + 1
         print("...finished")
 
     airspaces_in_list = len(airspaces_definitions)
-    print("{} airspaces in list.".format(airspaces_in_list))
+    print("{} airspaces in list and {} duplicates were found.".format(airspaces_in_list, duplicates_counter))
 
     print("Write airspaces to target-file...")
     with codecs.open(PATH_RES_AIRSPACES_OUTPUT_FILE,"w+","utf-8") as tmp_file:
@@ -315,5 +321,5 @@ if __name__ == "__main__":
             tmp_file.write("{}\n\n".format(airspace_block))
             blocks_written = blocks_written + 1
             if blocks_written % 100 == 0:
-                print("{}/{} writte to target file...".format(blocks_written, airspaces_in_list))
+                print("{}/{} written to target file...".format(blocks_written, airspaces_in_list))
     print("...finished\nSaved file under\n{}".format(PATH_RES_AIRSPACES_OUTPUT_FILE))
