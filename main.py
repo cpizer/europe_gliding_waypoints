@@ -5,44 +5,49 @@ import requests
 import zipfile
 import io
 import codecs
+import os
 import numpy as np
+import ofm_utils
 
-PATH_CUP_BELGIUM = "http://snapshots.openflightmaps.org/live/2006/cup/ebbu/latest/cup_eb.zip"
-PATH_OA_BELGIUM = "http://snapshots.openflightmaps.org/live/2006/openair/ebbu/latest/openair_eb.zip"
-PATH_CUP_GERMANY = "http://snapshots.openflightmaps.org/live/2006/cup/ed/latest/cup_germany.zip"
-PATH_OA_GERMANY = "http://snapshots.openflightmaps.org/live/2006/openair/ed/latest/openair_ed.zip"
-PATH_CUP_FINLAND = "http://snapshots.openflightmaps.org/live/2006/cup/efin/latest/cup_ef.zip"
-PATH_CUP_FINLAND = "http://snapshots.openflightmaps.org/live/2006/openair/efin/latest/openair_ef.zip"
-PATH_CUP_NEDERLAND = "http://snapshots.openflightmaps.org/live/2006/cup/ehaa/latest/cup_eh.zip"
-PATH_OA_NEDERLAND = "http://snapshots.openflightmaps.org/live/2006/openair/ehaa/latest/openair_eh.zip"
-PATH_CUP_DENMARK = "http://snapshots.openflightmaps.org/live/2006/cup/ekdk/latest/cup_ek.zip"
-PATH_OA_DENMARK = "http://snapshots.openflightmaps.org/live/2006/openair/ekdk/latest/openair_ek.zip"
-PATH_CUP_POLAND = "http://snapshots.openflightmaps.org/live/2006/cup/epww/latest/cup_ep.zip"
-PATH_OA_POLAND = "http://snapshots.openflightmaps.org/live/2006/openair/epww/latest/openair_ep.zip"
-PATH_CUP_SWEDEN = "http://snapshots.openflightmaps.org/live/2006/cup/esaa/latest/cup_es.zip"
-PATH_OA_SWEDEN = "http://snapshots.openflightmaps.org/live/2006/openair/esaa/latest/openair_es.zip"
-PATH_CUP_BULGARIA = "http://snapshots.openflightmaps.org/live/2006/cup/lbsr/latest/cup_bulgaria.zip"
-PATH_OA_BULGARIA = "http://snapshots.openflightmaps.org/live/2006/openair/lbsr/latest/openair_lb.zip"
-PATH_CUP_CROATIA = "http://snapshots.openflightmaps.org/live/2006/cup/ldzo/latest/cup_ld.zip"
-PATH_OA_CROATIA = "http://snapshots.openflightmaps.org/live/2006/openair/ldzo/latest/openair_ld.zip"
-PATH_CUP_GREECE = "http://snapshots.openflightmaps.org/live/2006/cup/lggg/latest/cup_lg.zip"
-PATH_OA_GREECE = "http://snapshots.openflightmaps.org/live/2006/openair/lggg/latest/openair_lg.zip"
-PATH_CUP_HUNGARY = "http://snapshots.openflightmaps.org/live/2006/cup/lhcc/latest/cup_hungary.zip"
-PATH_OA_HUNGARY = "http://snapshots.openflightmaps.org/live/2006/openair/lhcc/latest/openair_lh.zip"
-PATH_CUP_ITALY = "http://snapshots.openflightmaps.org/live/2006/cup/li/latest/cup_li.zip"
-PATH_OA_ITALY = "http://snapshots.openflightmaps.org/live/2006/openair/li/latest/openair_li.zip"
-PATH_CUP_SLOVENIA = "http://snapshots.openflightmaps.org/live/2006/cup/ljla/latest/cup_slovenia.zip"
-PATH_OA_SLOVENIA = "http://snapshots.openflightmaps.org/live/2006/openair/ljla/latest/openair_lj.zip"
-PATH_CUP_CZECH = "http://snapshots.openflightmaps.org/live/2006/cup/lkaa/latest/cup_lk.zip"
-PATH_OA_CZECH = "http://snapshots.openflightmaps.org/live/2006/openair/lkaa/latest/openair_lk.zip"
-PATH_CUP_AUSTRIA = "http://snapshots.openflightmaps.org/live/2006/cup/lovv/latest/cup_austria.zip"
-PATH_OA_AUSTRIA = "http://snapshots.openflightmaps.org/live/2006/openair/lovv/latest/openair_lo.zip"
-PATH_CUP_ROMANIA = "http://snapshots.openflightmaps.org/live/2006/cup/lrbb/latest/cup_romania.zip"
-PATH_OA_ROMANIA = "http://snapshots.openflightmaps.org/live/2006/openair/lrbb/latest/openair_lr.zip"
-PATH_CUP_SWITZERLAND = "http://snapshots.openflightmaps.org/live/2006/cup/lsas/latest/cup_switzerland.zip"
-PATH_OA_SWITZERLAND = "http://snapshots.openflightmaps.org/live/2006/openair/lsas/latest/openair_ls.zip"
-PATH_CUP_SLOVAKIA = "http://snapshots.openflightmaps.org/live/2006/cup/lzbb/latest/cup_lz.zip"
-PATH_OA_SLOVAKIA = "http://snapshots.openflightmaps.org/live/2006/openair/lzbb/latest/openair_lz.zip"
+current_airac_id = str(ofm_utils.get_current_airac_id())
+#stable airac_id = 2006
+
+PATH_CUP_BELGIUM = "http://snapshots.openflightmaps.org/live/{}/cup/ebbu/latest/cup_eb.zip".format(current_airac_id)
+PATH_OA_BELGIUM = "http://snapshots.openflightmaps.org/live/{}/openair/ebbu/latest/openair_eb.zip".format(current_airac_id)
+PATH_CUP_GERMANY = "http://snapshots.openflightmaps.org/live/{}/cup/ed/latest/cup_germany.zip".format(current_airac_id)
+PATH_OA_GERMANY = "http://snapshots.openflightmaps.org/live/{}/openair/ed/latest/openair_ed.zip".format(current_airac_id)
+PATH_CUP_FINLAND = "http://snapshots.openflightmaps.org/live/{}/cup/efin/latest/cup_ef.zip".format(current_airac_id)
+PATH_CUP_FINLAND = "http://snapshots.openflightmaps.org/live/{}/openair/efin/latest/openair_ef.zip".format(current_airac_id)
+PATH_CUP_NEDERLAND = "http://snapshots.openflightmaps.org/live/{}/cup/ehaa/latest/cup_eh.zip".format(current_airac_id)
+PATH_OA_NEDERLAND = "http://snapshots.openflightmaps.org/live/{}/openair/ehaa/latest/openair_eh.zip".format(current_airac_id)
+PATH_CUP_DENMARK = "http://snapshots.openflightmaps.org/live/{}/cup/ekdk/latest/cup_ek.zip".format(current_airac_id)
+PATH_OA_DENMARK = "http://snapshots.openflightmaps.org/live/{}/openair/ekdk/latest/openair_ek.zip".format(current_airac_id)
+PATH_CUP_POLAND = "http://snapshots.openflightmaps.org/live/{}/cup/epww/latest/cup_ep.zip".format(current_airac_id)
+PATH_OA_POLAND = "http://snapshots.openflightmaps.org/live/{}/openair/epww/latest/openair_ep.zip".format(current_airac_id)
+PATH_CUP_SWEDEN = "http://snapshots.openflightmaps.org/live/{}/cup/esaa/latest/cup_es.zip".format(current_airac_id)
+PATH_OA_SWEDEN = "http://snapshots.openflightmaps.org/live/{}/openair/esaa/latest/openair_es.zip".format(current_airac_id)
+PATH_CUP_BULGARIA = "http://snapshots.openflightmaps.org/live/{}/cup/lbsr/latest/cup_bulgaria.zip".format(current_airac_id)
+PATH_OA_BULGARIA = "http://snapshots.openflightmaps.org/live/{}/openair/lbsr/latest/openair_lb.zip".format(current_airac_id)
+PATH_CUP_CROATIA = "http://snapshots.openflightmaps.org/live/{}/cup/ldzo/latest/cup_ld.zip".format(current_airac_id)
+PATH_OA_CROATIA = "http://snapshots.openflightmaps.org/live/{}/openair/ldzo/latest/openair_ld.zip".format(current_airac_id)
+PATH_CUP_GREECE = "http://snapshots.openflightmaps.org/live/{}/cup/lggg/latest/cup_lg.zip".format(current_airac_id)
+PATH_OA_GREECE = "http://snapshots.openflightmaps.org/live/{}/openair/lggg/latest/openair_lg.zip".format(current_airac_id)
+PATH_CUP_HUNGARY = "http://snapshots.openflightmaps.org/live/{}/cup/lhcc/latest/cup_hungary.zip".format(current_airac_id)
+PATH_OA_HUNGARY = "http://snapshots.openflightmaps.org/live/{}/openair/lhcc/latest/openair_lh.zip".format(current_airac_id)
+PATH_CUP_ITALY = "http://snapshots.openflightmaps.org/live/{}/cup/li/latest/cup_li.zip".format(current_airac_id)
+PATH_OA_ITALY = "http://snapshots.openflightmaps.org/live/{}/openair/li/latest/openair_li.zip".format(current_airac_id)
+PATH_CUP_SLOVENIA = "http://snapshots.openflightmaps.org/live/{}/cup/ljla/latest/cup_slovenia.zip".format(current_airac_id)
+PATH_OA_SLOVENIA = "http://snapshots.openflightmaps.org/live/{}/openair/ljla/latest/openair_lj.zip".format(current_airac_id)
+PATH_CUP_CZECH = "http://snapshots.openflightmaps.org/live/{}/cup/lkaa/latest/cup_lk.zip".format(current_airac_id)
+PATH_OA_CZECH = "http://snapshots.openflightmaps.org/live/{}/openair/lkaa/latest/openair_lk.zip".format(current_airac_id)
+PATH_CUP_AUSTRIA = "http://snapshots.openflightmaps.org/live/{}/cup/lovv/latest/cup_austria.zip".format(current_airac_id)
+PATH_OA_AUSTRIA = "http://snapshots.openflightmaps.org/live/{}/openair/lovv/latest/openair_lo.zip".format(current_airac_id)
+PATH_CUP_ROMANIA = "http://snapshots.openflightmaps.org/live/{}/cup/lrbb/latest/cup_romania.zip".format(current_airac_id)
+PATH_OA_ROMANIA = "http://snapshots.openflightmaps.org/live/{}/openair/lrbb/latest/openair_lr.zip".format(current_airac_id)
+PATH_CUP_SWITZERLAND = "http://snapshots.openflightmaps.org/live/{}/cup/lsas/latest/cup_switzerland.zip".format(current_airac_id)
+PATH_OA_SWITZERLAND = "http://snapshots.openflightmaps.org/live/{}/openair/lsas/latest/openair_ls.zip".format(current_airac_id)
+PATH_CUP_SLOVAKIA = "http://snapshots.openflightmaps.org/live/{}/cup/lzbb/latest/cup_lz.zip".format(current_airac_id)
+PATH_OA_SLOVAKIA = "http://snapshots.openflightmaps.org/live/{}/openair/lzbb/latest/openair_lz.zip".format(current_airac_id)
 PATH_CUP_FRANCE = "http://download.xcsoar.org/content/waypoint/country/FR.cup"
 PATH_OA_FRANCE = ""
 
@@ -177,48 +182,58 @@ if __name__ == "__main__":
     PATH_RES = PATH_CWD / Path("res")
     PATH_RES_INPUT = PATH_RES / Path("input")
     PATH_RES_OUTPUT = PATH_RES / Path("output")
-    FILENAME_OUTPUT_FILE = "worldwide_{}.cup".format(datetime.date.today().isoformat().replace("-","_"))
-    PATH_RES_OUTPUT_FILE = PATH_RES_OUTPUT / Path(FILENAME_OUTPUT_FILE)
+    WAYPOINTS_FILENAME_OUTPUT_FILE = "europe_{}.cup".format(datetime.date.today().isoformat().replace("-","_"))
+    AIRSPACES_FILENAME_OUTPUT_FILE = "europe_openair_{}.txt".format(datetime.date.today().isoformat().replace("-","_"))
+    PATH_RES_WAYPOINTS_OUTPUT_FILE = PATH_RES_OUTPUT / Path(WAYPOINTS_FILENAME_OUTPUT_FILE)
+    PATH_RES_AIRSPACES_OUTPUT_FILE = PATH_RES_OUTPUT / Path(AIRSPACES_FILENAME_OUTPUT_FILE)
+
+    print("Create all  files based on AIRAC-ID {}".format(current_airac_id))
 
     waypoint_styles = []
+    build_files_only = False
     if len(sys.argv) > 1:
-        for i in range(2,len(sys.argv)):
+        for i in range(1,len(sys.argv)):
             if sys.argv[i].isnumeric():
                 waypoint_styles.append(int(sys.argv[i]))
+            elif "--build" in sys.argv[i]:
+                build_files_only = True
+                print("Only build the files...")
             else:
                 print("WARNING: '{}' is not a valid command line argument!!!")
     
-    if not PATH_RES_INPUT.is_dir():
-        PATH_RES_INPUT.mkdir(parents = True)
+    if not build_files_only:
+        if not PATH_RES_INPUT.is_dir():
+            PATH_RES_INPUT.mkdir(parents = True)
+        
+        if not PATH_RES_OUTPUT.is_dir():
+            PATH_RES_OUTPUT.mkdir(parents = True)
+        
+        for tmp_path in path_list:
+            print("Download {}...".format(tmp_path))
+            while True:
+                tmp_response = requests.get(tmp_path)
+                if tmp_response.ok:
+                    break
+            print("...finished")
+            if "zip" in tmp_path:
+                tmp_zip = zipfile.ZipFile(io.BytesIO(tmp_response.content))
+                tmp_zip.extractall(path = PATH_RES_INPUT)
+            else:
+                tmp_content = tmp_response.text
+                tmp_posix_path = PurePosixPath(tmp_path)
+                tmp_filename = tmp_posix_path.stem
+                tmp_input_file_path = PATH_RES_INPUT / Path("cup_{}".format(tmp_filename)) / Path("embedded")
+                if not tmp_input_file_path.is_dir():
+                    tmp_input_file_path.mkdir(parents = True)
+                tmp_input_file_path = tmp_input_file_path / Path("{}.cup".format(tmp_filename))
+                try:
+                    with codecs.open(tmp_input_file_path,"w+","ISO-8859-1") as tmp_file:
+                        tmp_file.write(tmp_content)
+                except:
+                    with codecs.open(tmp_input_file_path,"w+","utf-8") as tmp_file:
+                        tmp_file.write(tmp_content)
     
-    if not PATH_RES_OUTPUT.is_dir():
-        PATH_RES_OUTPUT.mkdir(parents = True)
-    
-    for tmp_path in path_list:
-        print("Download {}...".format(tmp_path))
-        while True:
-            tmp_response = requests.get(tmp_path)
-            if tmp_response.ok:
-                break
-        print("...finished")
-        if "zip" in tmp_path:
-            tmp_zip = zipfile.ZipFile(io.BytesIO(tmp_response.content))
-            tmp_zip.extractall(path = PATH_RES_INPUT)
-        else:
-            tmp_content = tmp_response.text
-            tmp_posix_path = PurePosixPath(tmp_path)
-            tmp_filename = tmp_posix_path.stem
-            tmp_input_file_path = PATH_RES_INPUT / Path("cup_{}".format(tmp_filename)) / Path("embedded")
-            if not tmp_input_file_path.is_dir():
-                tmp_input_file_path.mkdir(parents = True)
-            tmp_input_file_path = tmp_input_file_path / Path("{}.cup".format(tmp_filename))
-            try:
-                with codecs.open(tmp_input_file_path,"w+","ISO-8859-1") as tmp_file:
-                    tmp_file.write(tmp_content)
-            except:
-                with codecs.open(tmp_input_file_path,"w+","utf-8") as tmp_file:
-                    tmp_file.write(tmp_content)
-    
+    #Create the waypoint-file
     input_files_list = []
     for tmp_dir in PATH_RES_INPUT.glob("*/*"):
         if "embedded" in str(tmp_dir) and "cup" in str(tmp_dir):
@@ -246,7 +261,7 @@ if __name__ == "__main__":
         print("...finished")
     
     print("Write waypoints to target-file...")
-    with codecs.open(PATH_RES_OUTPUT_FILE,"w+","utf-8") as tmp_file:
+    with codecs.open(PATH_RES_WAYPOINTS_OUTPUT_FILE,"w+","utf-8") as tmp_file:
         for line_num, line in enumerate(output_lines):
             if not line_num == 0:
                 try:
@@ -257,4 +272,48 @@ if __name__ == "__main__":
                     print("WARNING: Parsing the following line failed:\n{} (this line might be empty)".format(line))
             else:
                 tmp_file.write("{}\n".format(line))
-    print("...finished\nSaved file under\n{}".format(PATH_RES_OUTPUT_FILE))
+    print("...finished\nSaved file under\n{}".format(PATH_RES_WAYPOINTS_OUTPUT_FILE))
+
+    #Create the airspace file
+    input_files_list = []
+    for tmp_dir in PATH_RES_INPUT.glob("*/*"):
+        if "embedded" in str(tmp_dir) and "openair_" in str(tmp_dir):
+            tmp_dir_list = list(tmp_dir.glob("**/*.txt"))
+            for tmp_file in tmp_dir_list:
+                if "seeyou.openair" in str(tmp_file):
+                    input_files_list.append(tmp_file)
+    
+    airspaces_definitions = []
+    airspaces_names = []
+    
+    for input_file in input_files_list:
+        print("Add airspaces from {} to list...".format(input_file))
+        with codecs.open(input_file,"r","ISO-8859-1") as tmp_file:
+            content = tmp_file.read()
+            first_airspace_occurence = content.find("AC ")
+            content = content[first_airspace_occurence:]
+            blockwise_content = content.split("\nAC")
+            for airspace_block in blockwise_content:
+                linewise_content = content.split("\n")
+                airspace_name = ""
+                for line in linewise_content:
+                    if "AN" in line:
+                        airspace_name = line[3:]
+                        break
+                if not airspace_name in airspaces_names:
+                    airspaces_names.append(airspace_name)
+                    airspaces_definitions.append(airspace_block)
+        print("...finished")
+
+    airspaces_in_list = len(airspaces_definitions)
+    print("{} airspaces in list.".format(airspaces_in_list))
+
+    print("Write airspaces to target-file...")
+    with codecs.open(PATH_RES_AIRSPACES_OUTPUT_FILE,"w+","utf-8") as tmp_file:
+        blocks_written = 0
+        for airspace_block in airspaces_definitions:
+            tmp_file.write("{}\n\n".format(airspace_block))
+            blocks_written = blocks_written + 1
+            if blocks_written % 100 == 0:
+                print("{}/{} writte to target file...".format(blocks_written, airspaces_in_list))
+    print("...finished\nSaved file under\n{}".format(PATH_RES_AIRSPACES_OUTPUT_FILE))
