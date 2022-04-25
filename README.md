@@ -7,9 +7,9 @@ By using this script and the resulting file, the user does not have to switch be
 borders are crossed and the script automatically retrieves actively updated data. 
 Thus, all frequencies should be up-to-date all the time.
 
-To run the script simply run main.py, which contains all required code.
+To run the script simply run main.py.
 
-The output-file can be found under /res/output/europe.cup. 
+The output-file can be found under /res/output/. 
 All directories are created automatically by the script, if they do not exist yet.
 
 Have fun and always happy landings...
