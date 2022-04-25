@@ -108,3 +108,5 @@ def get_global_product_dict():
         product_list = get_region_product_list(region_code)
         products_dict[region_code] = product_list
     return products_dict
+
+    #test
