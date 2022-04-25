@@ -10,56 +10,11 @@ import numpy as np
 import ofm_utils
 
 current_airac_id = str(ofm_utils.get_current_airac_id())
-#stable airac_id = 2006
 
-PATH_CUP_BELGIUM = "http://snapshots.openflightmaps.org/live/{}/cup/ebbu/latest/cup_eb.zip".format(current_airac_id)
-PATH_OA_BELGIUM = "http://snapshots.openflightmaps.org/live/{}/openair/ebbu/latest/openair_eb.zip".format(current_airac_id)
-PATH_CUP_GERMANY = "http://snapshots.openflightmaps.org/live/{}/cup/ed/latest/cup_germany.zip".format(current_airac_id)
-PATH_OA_GERMANY = "http://snapshots.openflightmaps.org/live/{}/openair/ed/latest/openair_ed.zip".format(current_airac_id)
-PATH_CUP_FINLAND = "http://snapshots.openflightmaps.org/live/{}/cup/efin/latest/cup_ef.zip".format(current_airac_id)
-PATH_CUP_FINLAND = "http://snapshots.openflightmaps.org/live/{}/openair/efin/latest/openair_ef.zip".format(current_airac_id)
-PATH_CUP_NEDERLAND = "http://snapshots.openflightmaps.org/live/{}/cup/ehaa/latest/cup_eh.zip".format(current_airac_id)
-PATH_OA_NEDERLAND = "http://snapshots.openflightmaps.org/live/{}/openair/ehaa/latest/openair_eh.zip".format(current_airac_id)
-PATH_CUP_DENMARK = "http://snapshots.openflightmaps.org/live/{}/cup/ekdk/latest/cup_ek.zip".format(current_airac_id)
-PATH_OA_DENMARK = "http://snapshots.openflightmaps.org/live/{}/openair/ekdk/latest/openair_ek.zip".format(current_airac_id)
-PATH_CUP_POLAND = "http://snapshots.openflightmaps.org/live/{}/cup/epww/latest/cup_ep.zip".format(current_airac_id)
-PATH_OA_POLAND = "http://snapshots.openflightmaps.org/live/{}/openair/epww/latest/openair_ep.zip".format(current_airac_id)
-PATH_CUP_SWEDEN = "http://snapshots.openflightmaps.org/live/{}/cup/esaa/latest/cup_es.zip".format(current_airac_id)
-PATH_OA_SWEDEN = "http://snapshots.openflightmaps.org/live/{}/openair/esaa/latest/openair_es.zip".format(current_airac_id)
-PATH_CUP_BULGARIA = "http://snapshots.openflightmaps.org/live/{}/cup/lbsr/latest/cup_bulgaria.zip".format(current_airac_id)
-PATH_OA_BULGARIA = "http://snapshots.openflightmaps.org/live/{}/openair/lbsr/latest/openair_lb.zip".format(current_airac_id)
-PATH_CUP_CROATIA = "http://snapshots.openflightmaps.org/live/{}/cup/ldzo/latest/cup_ld.zip".format(current_airac_id)
-PATH_OA_CROATIA = "http://snapshots.openflightmaps.org/live/{}/openair/ldzo/latest/openair_ld.zip".format(current_airac_id)
-PATH_CUP_GREECE = "http://snapshots.openflightmaps.org/live/{}/cup/lggg/latest/cup_lg.zip".format(current_airac_id)
-PATH_OA_GREECE = "http://snapshots.openflightmaps.org/live/{}/openair/lggg/latest/openair_lg.zip".format(current_airac_id)
-PATH_CUP_HUNGARY = "http://snapshots.openflightmaps.org/live/{}/cup/lhcc/latest/cup_hungary.zip".format(current_airac_id)
-PATH_OA_HUNGARY = "http://snapshots.openflightmaps.org/live/{}/openair/lhcc/latest/openair_lh.zip".format(current_airac_id)
-PATH_CUP_ITALY = "http://snapshots.openflightmaps.org/live/{}/cup/li/latest/cup_li.zip".format(current_airac_id)
-PATH_OA_ITALY = "http://snapshots.openflightmaps.org/live/{}/openair/li/latest/openair_li.zip".format(current_airac_id)
-PATH_CUP_SLOVENIA = "http://snapshots.openflightmaps.org/live/{}/cup/ljla/latest/cup_slovenia.zip".format(current_airac_id)
-PATH_OA_SLOVENIA = "http://snapshots.openflightmaps.org/live/{}/openair/ljla/latest/openair_lj.zip".format(current_airac_id)
-PATH_CUP_CZECH = "http://snapshots.openflightmaps.org/live/{}/cup/lkaa/latest/cup_lk.zip".format(current_airac_id)
-PATH_OA_CZECH = "http://snapshots.openflightmaps.org/live/{}/openair/lkaa/latest/openair_lk.zip".format(current_airac_id)
-PATH_CUP_AUSTRIA = "http://snapshots.openflightmaps.org/live/{}/cup/lovv/latest/cup_austria.zip".format(current_airac_id)
-PATH_OA_AUSTRIA = "http://snapshots.openflightmaps.org/live/{}/openair/lovv/latest/openair_lo.zip".format(current_airac_id)
-PATH_CUP_ROMANIA = "http://snapshots.openflightmaps.org/live/{}/cup/lrbb/latest/cup_romania.zip".format(current_airac_id)
-PATH_OA_ROMANIA = "http://snapshots.openflightmaps.org/live/{}/openair/lrbb/latest/openair_lr.zip".format(current_airac_id)
-PATH_CUP_SWITZERLAND = "http://snapshots.openflightmaps.org/live/{}/cup/lsas/latest/cup_switzerland.zip".format(current_airac_id)
-PATH_OA_SWITZERLAND = "http://snapshots.openflightmaps.org/live/{}/openair/lsas/latest/openair_ls.zip".format(current_airac_id)
-PATH_CUP_SLOVAKIA = "http://snapshots.openflightmaps.org/live/{}/cup/lzbb/latest/cup_lz.zip".format(current_airac_id)
-PATH_OA_SLOVAKIA = "http://snapshots.openflightmaps.org/live/{}/openair/lzbb/latest/openair_lz.zip".format(current_airac_id)
 PATH_CUP_FRANCE = "http://download.xcsoar.org/content/waypoint/country/FR.cup"
-PATH_OA_FRANCE = ""
+PATH_OPENAIR_FRANCE = "https://drive.google.com/uc?id=1O6sPeB8da9xTH7VNeFekM4j71HrB4Ywk&export=download"
 
 PATH_CWD = Path.cwd()
-
-path_list = [PATH_CUP_FRANCE, PATH_CUP_AUSTRIA, PATH_CUP_BELGIUM, PATH_CUP_BULGARIA, PATH_CUP_CROATIA, 
-    PATH_CUP_CZECH, PATH_CUP_DENMARK, PATH_CUP_FINLAND, PATH_CUP_GERMANY, PATH_CUP_GREECE,
-    PATH_CUP_HUNGARY, PATH_CUP_ITALY, PATH_CUP_NEDERLAND, PATH_CUP_POLAND, PATH_CUP_ROMANIA,
-    PATH_CUP_SLOVAKIA, PATH_CUP_SLOVENIA, PATH_CUP_SWEDEN, PATH_CUP_SWITZERLAND, 
-    PATH_OA_AUSTRIA, PATH_OA_BELGIUM, PATH_OA_BULGARIA, PATH_OA_CROATIA, PATH_OA_CZECH, PATH_OA_DENMARK, 
-    PATH_OA_GERMANY, PATH_OA_GREECE, PATH_OA_HUNGARY, PATH_OA_ITALY, PATH_OA_NEDERLAND, PATH_OA_POLAND, 
-    PATH_OA_ROMANIA, PATH_OA_SLOVAKIA, PATH_OA_SLOVENIA, PATH_OA_SWEDEN, PATH_OA_SWITZERLAND]
 
 def parse_line(line, styles = []):
     line = line.replace("\r", "")
@@ -208,6 +163,16 @@ if __name__ == "__main__":
         if not PATH_RES_OUTPUT.is_dir():
             PATH_RES_OUTPUT.mkdir(parents = True)
         
+        path_list = []
+        product_dict = ofm_utils.get_global_product_dict()
+        for region_code, products in product_dict.items():
+            if "OPENAIR" in products:
+                path_list.append(products["OPENAIR"])
+            if "CUP" in products:
+                path_list.append(products["CUP"])
+        #path_list.append(PATH_OPENAIR_FRANCE)
+        path_list.append(PATH_CUP_FRANCE)
+
         for tmp_path in path_list:
             print("Download {}...".format(tmp_path))
             while True:
